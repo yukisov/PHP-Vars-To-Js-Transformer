@@ -56,8 +56,10 @@ class LaravelViewBinder implements ViewBinder
             $this->event->listen("composing: {$view}", function () use ($js, $e) {
 
                 $html_attrs = '';
-                foreach($this->js_attributes as $name => $value) {
-                  $html_attrs .= sprintf(' %s="%s"', $e($name), $e($value));
+                if (is_array($this->js_attributes)) {
+                    foreach($this->js_attributes as $name => $value) {
+                      $html_attrs .= sprintf(' %s="%s"', $e($name), $e($value));
+                    }
                 }
 
                 echo "<script{$html_attrs}>{$js}</script>";
